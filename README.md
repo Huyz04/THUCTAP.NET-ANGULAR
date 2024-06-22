@@ -1,1 +1,3 @@
 # THUCTAP.NET-ANGULAR
+ĐÂY LÀ NHỮNG TASK TTH SẼ PHẢI LÀM KHI THỰC TẬP Ở MEU SOLUTION.
+Mentor: anh Long <3
