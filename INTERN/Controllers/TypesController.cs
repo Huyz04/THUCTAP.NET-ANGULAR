@@ -10,9 +10,11 @@ using Type = INTERN.Model.Type;
 using INTERN.Providers;
 using AutoMapper;
 using INTERN.DTO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace INTERN.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TypesController : ControllerBase

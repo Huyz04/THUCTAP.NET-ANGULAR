@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\HUY\\THUCTAP\\THUCTAP\\INTERN\\INTERN.csproj": {}
+    "C:\\HUY\\THUCTAP\\THUCTAP\\THUCTAP.NET-ANGULAR\\INTERN\\INTERN.csproj": {}
   },
   "projects": {
-    "C:\\HUY\\THUCTAP\\THUCTAP\\INTERN\\INTERN.csproj": {
+    "C:\\HUY\\THUCTAP\\THUCTAP\\THUCTAP.NET-ANGULAR\\INTERN\\INTERN.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\HUY\\THUCTAP\\THUCTAP\\INTERN\\INTERN.csproj",
+        "projectUniqueName": "C:\\HUY\\THUCTAP\\THUCTAP\\THUCTAP.NET-ANGULAR\\INTERN\\INTERN.csproj",
         "projectName": "INTERN",
-        "projectPath": "C:\\HUY\\THUCTAP\\THUCTAP\\INTERN\\INTERN.csproj",
+        "projectPath": "C:\\HUY\\THUCTAP\\THUCTAP\\THUCTAP.NET-ANGULAR\\INTERN\\INTERN.csproj",
         "packagesPath": "C:\\Users\\HUYPND\\.nuget\\packages\\",
-        "outputPath": "C:\\HUY\\THUCTAP\\THUCTAP\\INTERN\\obj\\",
+        "outputPath": "C:\\HUY\\THUCTAP\\THUCTAP\\THUCTAP.NET-ANGULAR\\INTERN\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -54,6 +54,18 @@
               "target": "Package",
               "version": "[13.0.1, )"
             },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.0.6, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.6, )"
+            },
+            "Microsoft.EntityFrameworkCore.InMemory": {
+              "target": "Package",
+              "version": "[8.0.6, )"
+            },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[8.0.6, )"
@@ -70,7 +82,11 @@
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[6.4.0, )"
+              "version": "[6.6.2, )"
+            },
+            "Swashbuckle.AspNetCore.Filters": {
+              "target": "Package",
+              "version": "[8.0.2, )"
             }
           },
           "imports": [

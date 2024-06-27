@@ -11,9 +11,11 @@ using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using INTERN.DTO;
 using AutoMapper;
 using NuGet.Versioning;
+using Microsoft.AspNetCore.Authorization;
 
 namespace INTERN.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductController : ControllerBase
