@@ -1,12 +1,71 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\Admin\\source\\repos\\THUCTAP.NET-ANGULAR\\INTERN\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Admin\\source\\repos\\THUCTAP.NET-ANGULAR\\INTERN\\Migrations\\20240627071002_Init.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Migrations\\20240627071002_Init.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BBB79010-1F9C-4C1B-859B-ED8259E4FD19}|INTERN.csproj|c:\\users\\admin\\source\\repos\\thuctap.net-angular\\intern\\model\\type.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BBB79010-1F9C-4C1B-859B-ED8259E4FD19}|INTERN.csproj|solutionrelative:model\\type.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BBB79010-1F9C-4C1B-859B-ED8259E4FD19}|INTERN.csproj|c:\\users\\admin\\source\\repos\\thuctap.net-angular\\intern\\model\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BBB79010-1F9C-4C1B-859B-ED8259E4FD19}|INTERN.csproj|solutionrelative:model\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "20240627071002_Init.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\source\\repos\\THUCTAP.NET-ANGULAR\\INTERN\\Migrations\\20240627071002_Init.cs",
+              "RelativeDocumentMoniker": "Migrations\\20240627071002_Init.cs",
+              "ToolTip": "C:\\Users\\Admin\\source\\repos\\THUCTAP.NET-ANGULAR\\INTERN\\Migrations\\20240627071002_Init.cs",
+              "RelativeToolTip": "Migrations\\20240627071002_Init.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-27T07:10:03.091Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Product.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\source\\repos\\THUCTAP.NET-ANGULAR\\INTERN\\Model\\Product.cs",
+              "RelativeDocumentMoniker": "Model\\Product.cs",
+              "ToolTip": "C:\\Users\\Admin\\source\\repos\\THUCTAP.NET-ANGULAR\\INTERN\\Model\\Product.cs",
+              "RelativeToolTip": "Model\\Product.cs",
+              "ViewState": "AQIAABYAAAAAAAAAAAAcwCMAAAATAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-27T06:41:52.946Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Type.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\source\\repos\\THUCTAP.NET-ANGULAR\\INTERN\\Model\\Type.cs",
+              "RelativeDocumentMoniker": "Model\\Type.cs",
+              "ToolTip": "C:\\Users\\Admin\\source\\repos\\THUCTAP.NET-ANGULAR\\INTERN\\Model\\Type.cs",
+              "RelativeToolTip": "Model\\Type.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAnAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-27T06:41:38.062Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }
