@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace INTERN.Model
 {
-    public class ProductContext : DbContext
+    public class ProductContext : IdentityDbContext<User>
     {
         public ProductContext(DbContextOptions options):base(options) 
         {
