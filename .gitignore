@@ -37,3 +37,5 @@ $RECYCLE.BIN/
 
 # VS Code directories
 .vscode/
+# Visual Studio temporary files
+.vs/
