@@ -34,3 +34,7 @@ INSERT INTO Products (Id, Code, Name, Description, Price, Created_at, Created_by
 (15, 'P015', 'Gaming Console', 'A popular gaming console', 500, '2023-05-18 00:00:00', 'Admin', '2023-06-22 00:00:00', 'Admin',1);
 
 SET IDENTITY_INSERT Products OFF;
+
+SELECT * FROM Products
+
+SELECT * FROM Types

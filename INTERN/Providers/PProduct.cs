@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using static NuGet.Packaging.PackagingConstants;
 using System.Drawing.Printing;
+using System.Security.Claims;
+using System.Data.SqlTypes;
 
 namespace INTERN.Providers
 {
@@ -102,7 +104,7 @@ namespace INTERN.Providers
             R.data.PageIndex = 1;
             return R;
         }
-        public async Task<ActionResult<Response>> PostProduct([FromBody] ProductDTO product)
+        public async Task<ActionResult<Response>> PostProduct([FromBody] ProductDTO product, HttpContext httpContext)
         {
             Response r = new Response();
             if (product == null)
@@ -116,7 +118,11 @@ namespace INTERN.Providers
                 Name = product.Name,
                 Code = product.Code,
                 Description = product.Description,
-                Price = product.Price
+                Price = product.Price,
+                Created_at = DateTime.Now, 
+                Created_by = httpContext.User.FindFirstValue(ClaimTypes.NameIdentifier),
+                Updated_at = DateTime.Now,
+                Updated_by = httpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)
             };
             prd.Type = _context.Types.Where(t => t.NameType == product.TypeName).FirstOrDefault();
             _context.Products.Add(prd);
@@ -182,4 +188,5 @@ namespace INTERN.Providers
             return _context.Products.Any(e => e.Id == id);
         }
     }
+
 }

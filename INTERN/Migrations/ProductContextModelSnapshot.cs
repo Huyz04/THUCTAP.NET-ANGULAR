@@ -35,7 +35,7 @@ namespace INTERN.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("Created_at")
-                        .HasColumnType("datetime");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Created_by")
                         .IsRequired()
@@ -56,7 +56,7 @@ namespace INTERN.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Updated_at")
-                        .HasColumnType("datetime");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Updated_by")
                         .IsRequired()
@@ -78,7 +78,7 @@ namespace INTERN.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TypeId"));
 
                     b.Property<DateTime>("Created_at")
-                        .HasColumnType("datetime");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Created_by")
                         .IsRequired()
@@ -89,7 +89,7 @@ namespace INTERN.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("Updated_at")
-                        .HasColumnType("datetime");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Updated_by")
                         .IsRequired()

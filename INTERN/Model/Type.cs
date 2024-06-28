@@ -11,13 +11,13 @@ namespace INTERN.Model
         [Column(TypeName = "nvarchar(100)")]
         public string NameType { get; set; }
 
-        [Column(TypeName = "datetime")]
+        [Column(TypeName = "datetime2")]
         public DateTime Created_at { get; set; }
 
         [Column(TypeName = "nvarchar(100)")]
         public string Created_by { get; set; }
 
-        [Column(TypeName = "datetime")]
+        [Column(TypeName = "datetime2")]
         public DateTime Updated_at { get; set; }
 
         [Column(TypeName = "nvarchar(100)")]

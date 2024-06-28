@@ -79,7 +79,7 @@ namespace INTERN.Controllers
         [HttpPost]
         public Task<ActionResult<Response>> PostProduct([FromBody] ProductDTO product)
         {
-            return _pProduct.PostProduct(product);
+            return _pProduct.PostProduct(product, HttpContext);
         }
 
         // DELETE: api/Product/5
