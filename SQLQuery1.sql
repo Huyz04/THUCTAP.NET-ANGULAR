@@ -36,5 +36,6 @@ INSERT INTO Products (Id, Code, Name, Description, Price, Created_at, Created_by
 SET IDENTITY_INSERT Products OFF;
 
 SELECT * FROM Products
+Select * From AspNetUsers
 
 SELECT * FROM Types
