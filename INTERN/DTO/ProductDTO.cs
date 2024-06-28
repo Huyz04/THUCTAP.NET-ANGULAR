@@ -1,4 +1,6 @@
-﻿namespace INTERN.DTO
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace INTERN.DTO
 {
     public class ProductDTO
     {

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace INTERN.Migrations
 {
     [DbContext(typeof(ProductContext))]
-    [Migration("20240628024103_Two")]
-    partial class Two
+    [Migration("20240628045658_fix_model1")]
+    partial class fix_model1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

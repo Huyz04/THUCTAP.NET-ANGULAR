@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace INTERN.Migrations
 {
     /// <inheritdoc />
-    public partial class Add_more_feature : Migration
+    public partial class fix_model1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -58,9 +58,9 @@ namespace INTERN.Migrations
                     TypeId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NameType = table.Column<string>(type: "nvarchar(100)", nullable: false),
-                    Created_at = table.Column<DateTime>(type: "datetime", nullable: false),
+                    Created_at = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Created_by = table.Column<string>(type: "nvarchar(100)", nullable: false),
-                    Updated_at = table.Column<DateTime>(type: "datetime", nullable: false),
+                    Updated_at = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Updated_by = table.Column<string>(type: "nvarchar(100)", nullable: false)
                 },
                 constraints: table =>
@@ -184,9 +184,9 @@ namespace INTERN.Migrations
                     Name = table.Column<string>(type: "nvarchar(100)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(100)", nullable: false),
                     Price = table.Column<int>(type: "int", nullable: false),
-                    Created_at = table.Column<DateTime>(type: "datetime", nullable: false),
+                    Created_at = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Created_by = table.Column<string>(type: "nvarchar(100)", nullable: false),
-                    Updated_at = table.Column<DateTime>(type: "datetime", nullable: false),
+                    Updated_at = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Updated_by = table.Column<string>(type: "nvarchar(100)", nullable: false),
                     TypeId = table.Column<int>(type: "int", nullable: false)
                 },

@@ -11,6 +11,9 @@ using INTERN.Providers;
 using AutoMapper;
 using INTERN.DTO;
 using Microsoft.AspNetCore.Authorization;
+using System.Net.Http;
+using System.Security.Claims;
+using Microsoft.CodeAnalysis;
 
 namespace INTERN.Controllers
 {
@@ -51,7 +54,7 @@ namespace INTERN.Controllers
         // PUT: api/Types/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<ActionResult<ResponseTypeStatus>> PutType(int id, TypeDTO @type)
+        public async Task<ActionResult<ResponseTypeStatus>> PutType(int id,[FromBody] TypeDTO @type)
         {
             ResponseTypeStatus status = new ResponseTypeStatus();
             if (id != @type.TypeId)
@@ -59,7 +62,14 @@ namespace INTERN.Controllers
                 status.Success = false;
                 return status;
             }
+            var typee1 = _context.Types.AsNoTracking().FirstOrDefault(p => p.TypeId == id);
+
+
             var typee = _mapper.Map<Type>(@type);
+            typee.Created_at = typee1.Created_at;
+            typee.Created_by = typee1.Created_by;
+            typee.Updated_at = DateTime.Now;
+            typee.Updated_by = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             _context.Update(typee);
 
             try
@@ -85,7 +95,7 @@ namespace INTERN.Controllers
         // POST: api/Types
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<TypeDTO>> PostType(TypeDTO typedto)
+        public async Task<ActionResult<TypeDTO>> PostType([FromBody] TypeDTO typedto)
         {
 
             if (_context.Types == null)
@@ -95,7 +105,11 @@ namespace INTERN.Controllers
             var type = new Type
             {
                 TypeId = typedto.TypeId,
-                NameType = typedto.NameType
+                NameType = typedto.NameType,
+                Created_at = DateTime.Now,
+                Created_by = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier),
+                Updated_at = DateTime.Now,
+                Updated_by = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)
             };
             _context.Types.Add(type);
             await _context.SaveChangesAsync();

@@ -9,6 +9,8 @@ using static NuGet.Packaging.PackagingConstants;
 using System.Drawing.Printing;
 using System.Security.Claims;
 using System.Data.SqlTypes;
+using Microsoft.AspNetCore.Http;
+using Microsoft.CodeAnalysis;
 
 namespace INTERN.Providers
 {
@@ -144,7 +146,7 @@ namespace INTERN.Providers
             var re = await GetProductFindPage(null, null, 1, 10);
             return re;
         }
-        public async Task<ActionResult<Response>> PutProduct(int IdProduct, ProductDTO productdto)
+        public async Task<ActionResult<Response>> PutProduct(int IdProduct,[FromBody] ProductDTO productdto, HttpContext httpContext)
         {
             Response r = new Response();
             if (IdProduct != productdto.Id)
@@ -152,6 +154,8 @@ namespace INTERN.Providers
                 r.Success = false;
                 return r;
             }
+            var product = _context.Products.AsNoTracking().FirstOrDefault(p => p.Id == IdProduct);
+
 
             Product prd = new Product()
             {
@@ -159,7 +163,11 @@ namespace INTERN.Providers
                 Name = productdto.Name,
                 Code = productdto.Code,
                 Description = productdto.Description,
-                Price = productdto.Price
+                Price = productdto.Price,
+                Created_at = product.Created_at,
+                Created_by= product.Created_by,
+                Updated_at = DateTime.Now,
+                Updated_by = httpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)
             };
             prd.Type = _context.Types.Where(t => t.NameType == productdto.TypeName).FirstOrDefault();
             _context.Entry(prd).State = EntityState.Modified;

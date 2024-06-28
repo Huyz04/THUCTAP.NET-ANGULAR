@@ -71,7 +71,7 @@ namespace INTERN.Controllers
         [HttpPut("{id}")]
         public Task<ActionResult<Response>> PutProduct(int id,[FromBody] ProductDTO productdto)
         {
-            return _pProduct.PutProduct(id, productdto);
+            return _pProduct.PutProduct(id, productdto, HttpContext);
         }
 
         // POST: api/Product
