@@ -29,11 +29,6 @@ builder.Services.AddDbContext<ProductContext>(option =>
           throw new InvalidOperationException("Connection String is not found"));
     });
 
-builder.Services.AddIdentity<User, IdentityRole>()
-    .AddEntityFrameworkStores<ProductContext>()
-    .AddSignInManager()
-    .AddRoles<IdentityRole>();
-
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -68,7 +63,6 @@ builder.Services.AddScoped<Response>();
 builder.Services.AddScoped<ResponseProduct>();
 builder.Services.AddScoped<ResponseType>();
 builder.Services.AddScoped<ResponseTypeStatus>();
-builder.Services.AddScoped<PUser>();
 builder.Services.AddScoped<PType>();
 
 var app = builder.Build();

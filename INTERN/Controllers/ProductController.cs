@@ -29,7 +29,7 @@ namespace INTERN.Controllers
         {
             _context = context;
             _pProduct = pProduct;
-            _mapper = mapper;
+            _mapper = mapper;   
         }
         /*
         // GET: api/Product
