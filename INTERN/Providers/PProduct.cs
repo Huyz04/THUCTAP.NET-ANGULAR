@@ -181,6 +181,12 @@ namespace INTERN.Providers
                 return r;
             }
             var product = _context.Products.AsNoTracking().FirstOrDefault(p => p.Id == IdProduct);
+            if (product == null)
+            {
+                r.Success = false;
+                r.Message = "Have no Product with this Id!";
+                return r;
+            }
 
             try
             { 
@@ -197,8 +203,14 @@ namespace INTERN.Providers
                     Updated_by = httpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)
                 };
 
-                prd.Type = _context.Types.Where(t => t.NameType == productdto.TypeName).FirstOrDefault();
-
+                var x = _context.Types.Where(t => t.NameType == productdto.TypeName).FirstOrDefault();
+                if(x == null)
+                {
+                    r.Success = false;
+                    r.Message = "Have No Type match this name Type!";
+                    return r;
+                }
+                prd.Type = x;
                 _context.Entry(prd).State = EntityState.Modified;
 
                 await _context.SaveChangesAsync();
