@@ -29,7 +29,7 @@ namespace INTERN.Providers
             IEnumerable<ProductDTO> listProduct = _mapper.Map<IEnumerable<ProductDTO>>(await _context.Products.ToListAsync());
             if(listProduct != null) response.data.Collection = listProduct;
             else response.data.Collection = new List<ProductDTO>();
-            response.data.Total = 0;
+            response.data.Total = await _context.Products.CountAsync();
             response.data.PageSize = 0;
             response.data.PageIndex = 0;
             if (response.data.Collection != null) response.Success = true;
@@ -97,6 +97,7 @@ namespace INTERN.Providers
             {
                 R.Success = false;
                 R.data.Total = 0;
+                R.Message = "Have No Product Match with This ID!";
                 return R;
             }
             IEnumerable<ProductDTO> a = new List<ProductDTO>() { product };
@@ -108,78 +109,108 @@ namespace INTERN.Providers
         }
         public async Task<ActionResult<Response>> PostProduct([FromBody] ProductDTO product, HttpContext httpContext)
         {
+
             Response r = new Response();
-            if (product == null)
+            if (product.Id != 0)
             {
                 r.Success = false;
+                r.Message = "Please do not fill in the ID field!";
                 return r;
             }
-            Product prd = new Product()
+            try
             {
-                Id = product.Id,
-                Name = product.Name,
-                Code = product.Code,
-                Description = product.Description,
-                Price = product.Price,
-                Created_at = DateTime.Now, 
-                Created_by = httpContext.User.FindFirstValue(ClaimTypes.NameIdentifier),
-                Updated_at = DateTime.Now,
-                Updated_by = httpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)
-            };
-            prd.Type = _context.Types.Where(t => t.NameType == product.TypeName).FirstOrDefault();
-            _context.Products.Add(prd);
-            await _context.SaveChangesAsync();
-            var re = await GetProductFindPage(null, null, 1, 10);
-            return re;
+                
+                Product prd = new Product()
+                {
+                    Id = product.Id,
+                    Name = product.Name,
+                    Code = product.Code,
+                    Description = product.Description,
+                    Price = product.Price,
+                    Created_at = DateTime.Now,
+                    Created_by = httpContext.User.FindFirstValue(ClaimTypes.NameIdentifier),
+                    Updated_at = DateTime.Now,
+                    Updated_by = httpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)
+                };
+                prd.Type = _context.Types.Where(t => t.NameType == product.TypeName).FirstOrDefault();
+                _context.Products.Add(prd);
+                await _context.SaveChangesAsync();
+                var re = await GetProductFindPage(null, null, 1, 10);
+                return re;
+            }
+            catch (Exception ex) 
+            {
+                r.Success = false;
+                r.Message = "Have No Type Match with This TypeName";
+                return r;
+            }
         }
         public async Task<ActionResult<Response>> DeleteProduct(int id)
         {
             Response r = new Response();
-            var product = await _context.Products.FindAsync(id);
-            if (product == null)
+            try
             {
-                r.Success=false;
+                var product = await _context.Products.FindAsync(id);
+                if (product == null)
+                {
+                    r.Success = false;
+                    r.Message = "Have No Product Match With This ProductID!";
+                    return r;
+                }
+                _context.Products.Remove(product);
+                await _context.SaveChangesAsync();
+                var re = await GetProductFindPage(null, null, 1, 10);
+                return re;
+            }
+            catch (Exception ex)
+            {
+                r.Success = false;
+                r.Message = $"An error occurred: {ex.Message}";
                 return r;
             }
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
-            var re = await GetProductFindPage(null, null, 1, 10);
-            return re;
+
         }
         public async Task<ActionResult<Response>> PutProduct(int IdProduct,[FromBody] ProductDTO productdto, HttpContext httpContext)
         {
             Response r = new Response();
             if (IdProduct != productdto.Id)
             {
-                r.Success = false;
+                r.Success = false; 
+                r.Message = "The ID Not Match!";
+
                 return r;
             }
             var product = _context.Products.AsNoTracking().FirstOrDefault(p => p.Id == IdProduct);
 
-
-            Product prd = new Product()
-            {
-                Id = productdto.Id,
-                Name = productdto.Name,
-                Code = productdto.Code,
-                Description = productdto.Description,
-                Price = productdto.Price,
-                Created_at = product.Created_at,
-                Created_by= product.Created_by,
-                Updated_at = DateTime.Now,
-                Updated_by = httpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)
-            };
-            prd.Type = _context.Types.Where(t => t.NameType == productdto.TypeName).FirstOrDefault();
-            _context.Entry(prd).State = EntityState.Modified;
             try
-            {
+            { 
+                Product prd = new Product()
+                {
+                    Id = productdto.Id,
+                    Name = productdto.Name,
+                    Code = productdto.Code,
+                    Description = productdto.Description,
+                    Price = productdto.Price,
+                    Created_at = product.Created_at,
+                    Created_by = product.Created_by,
+                    Updated_at = DateTime.Now,
+                    Updated_by = httpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)
+                };
+
+                prd.Type = _context.Types.Where(t => t.NameType == productdto.TypeName).FirstOrDefault();
+
+                _context.Entry(prd).State = EntityState.Modified;
+
                 await _context.SaveChangesAsync();
+                var result = await GetProductId(IdProduct);
+                return result;
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException ex)
             {
                 if (!ProductExists(IdProduct))
                 {
                     r.Success = false;
+                    r.Message = $"An error occurred: {ex.Message}";
                     return r;
                 }
                 else
@@ -188,8 +219,6 @@ namespace INTERN.Providers
                 }
             }
 
-            r.Success = true;
-            return r;
         }
         private bool ProductExists(int id)
         {
