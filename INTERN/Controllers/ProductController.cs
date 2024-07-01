@@ -12,6 +12,8 @@ using INTERN.DTO;
 using AutoMapper;
 using NuGet.Versioning;
 using Microsoft.AspNetCore.Authorization;
+using static INTERN.Helper.ServiceResponse;
+
 
 namespace INTERN.Controllers
 {
@@ -29,7 +31,7 @@ namespace INTERN.Controllers
             _pProduct = pProduct;
             _mapper = mapper;
         }
-
+        /*
         // GET: api/Product
         [HttpGet]
         public  Task<ActionResult<Response>> GetProducts()
@@ -47,7 +49,7 @@ namespace INTERN.Controllers
 
             return Ok(prd);
         }
-
+        */
         // GET: api/Product/5
         [HttpGet("{id}")]
         public Task<ActionResult<Response>> GetProduct(int id)
