@@ -3,7 +3,7 @@
     public class Response
     {
         public bool Success { get; set; }
-        public ResponseProduct data { get; set; }   
+        public ResponseProduct data { get; set; }
         public Response() {
         this.Success = false;
         this.data = new ResponseProduct();
