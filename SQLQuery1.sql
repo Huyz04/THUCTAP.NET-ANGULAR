@@ -39,3 +39,4 @@ SELECT * FROM Products
 Select * From AspNetUsers
 
 SELECT * FROM Types
+

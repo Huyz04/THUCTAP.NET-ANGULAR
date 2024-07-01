@@ -31,7 +31,7 @@ namespace INTERN.Model
 
         [Column(TypeName = "nvarchar(100)")]
         public string Updated_by { get; set; }
-
+         
         // Navigation property
         public Type Type { get; set; }
     }

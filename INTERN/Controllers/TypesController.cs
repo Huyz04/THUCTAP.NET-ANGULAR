@@ -24,169 +24,53 @@ namespace INTERN.Controllers
     {
         private readonly ProductContext _context;
         private readonly IMapper _mapper;
+        private readonly PType _pType;
 
-        public TypesController(ProductContext context, IMapper mapper)
+        public TypesController(ProductContext context, IMapper mapper, PType pType)
         {
             _context = context;
            _mapper = mapper;
+            _pType = pType;
         }
 
         // GET: api/Types
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TypeDTO>>> GetTypes()
+        public Task<ActionResult<ResponseTypeStatus>> GetProducts(
+            [FromQuery] string Filters = null,
+            [FromQuery] int Page = 1,
+            [FromQuery] int PageSize = 10)
         {
-            IEnumerable<TypeDTO> x= _mapper.Map<IEnumerable<TypeDTO>>(await _context.Types.ToListAsync());
-            return Ok(x);
+            return _pType.FindPage(Filters, Page, PageSize);
         }
 
         // GET: api/Types/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Type>> GetType(int id)
+        public Task<ActionResult<ResponseTypeStatus>> GetType(int id)
         {
-            var typee = await _context.Types.FindAsync(id);
-            if (typee == null)
-            {
-                return null;
-            }
-            return typee;
+            return _pType.PGetType(id);
         }
 
         // PUT: api/Types/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<ActionResult<ResponseTypeStatus>> PutType(int id,[FromBody] TypeDTO @type)
+        public Task<ActionResult<ResponseTypeStatus>> PutType(int id,[FromBody] TypeDTO type)
         {
-            ResponseTypeStatus status = new ResponseTypeStatus();
-            if (id != @type.TypeId)
-            {
-                status.Success = false;
-                return status;
-            }
-            var typee1 = _context.Types.AsNoTracking().FirstOrDefault(p => p.TypeId == id);
-
-
-            var typee = _mapper.Map<Type>(@type);
-            typee.Created_at = typee1.Created_at;
-            typee.Created_by = typee1.Created_by;
-            typee.Updated_at = DateTime.Now;
-            typee.Updated_by = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            _context.Update(typee);
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TypeExists(id))
-                {
-                    status.Success = false;
-                    return status;
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            status.Success = true;
-            return status;
+            return _pType.PutType(id, type, HttpContext);
         }
 
         // POST: api/Types
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<TypeDTO>> PostType([FromBody] TypeDTO typedto)
+        public Task<ActionResult<ResponseTypeStatus>> PostType([FromBody] TypeDTO typedto)
         {
-
-            if (_context.Types == null)
-            {
-                return Problem("Entity set 'ProductContext.Types' is NULL");
-            }
-            var type = new Type
-            {
-                TypeId = typedto.TypeId,
-                NameType = typedto.NameType,
-                Created_at = DateTime.Now,
-                Created_by = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier),
-                Updated_at = DateTime.Now,
-                Updated_by = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)
-            };
-            _context.Types.Add(type);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetType), new { id = type.TypeId }, type);
+            return _pType.PostType(typedto, HttpContext);
         }
 
         // DELETE: api/Types/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Response>> DeleteType(int id)
+        public Task<ActionResult<ResponseTypeStatus>> DeleteType(int id)
         {
-            Response r = new Response();
-            var @type = await _context.Types.FindAsync(id);
-            if (@type == null)
-            {
-                r.Success = false;
-                return r;
-            }
-            var product = _context.Products.Where(p => p.Type.TypeId == id).FirstOrDefault();
-            if (product != null)
-            {
-                r.Success = false;
-                return r;
-            }
-            _context.Types.Remove(@type);
-            await _context.SaveChangesAsync();
-            r.Success = true;
-            return r;
-        }
-        // GET: api/Product
-        [HttpGet("FindPage")]
-        public async Task<ActionResult<ResponseTypeStatus>> GetProducts(
-            [FromQuery] string Filters = null,
-            [FromQuery] int Page = 1,
-            [FromQuery] int PageSize = 10)
-        {
-            var query = _context.Types.AsQueryable();
-
-            // Áp dụng bộ lọc nếu Filters được cung cấp
-            if (!string.IsNullOrEmpty(Filters))
-            {
-                string filterValue = Filters; // Lấy giá trị Filters từ model
-                query = query.Where(t => t.NameType.Contains(filterValue)); // Lọc theo tên sản phẩm
-            }
-
-            var totalItems = await query.CountAsync();
-
-            var items = await query
-            .Skip((Page - 1) * PageSize)
-            .Take(PageSize)
-            .Select(t => new TypeDTO
-            {
-                TypeId = t.TypeId,
-                NameType = t.NameType
-            })
-            .ToListAsync();
-
-            var response = new ResponseType
-            {
-                Collection = items,
-                Total = totalItems,
-                PageSize = PageSize,
-                PageIndex = Page
-            };
-
-            // Prepare the full response
-            var fullResponse = new ResponseTypeStatus
-            {
-                Success = true, // Assuming there are products returned
-                data = response
-            };
-
-            return Ok(fullResponse);
-        }
-        private bool TypeExists(int id)
-        {
-            return _context.Types.Any(e => e.TypeId == id);
+            return _pType.DeleteType(id);
         }
     }
 }

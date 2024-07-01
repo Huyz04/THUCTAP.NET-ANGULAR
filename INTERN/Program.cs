@@ -69,6 +69,7 @@ builder.Services.AddScoped<ResponseProduct>();
 builder.Services.AddScoped<ResponseType>();
 builder.Services.AddScoped<ResponseTypeStatus>();
 builder.Services.AddScoped<PUser>();
+builder.Services.AddScoped<PType>();
 
 var app = builder.Build();
 

@@ -11,6 +11,6 @@ namespace INTERN.Model
         }
         public DbSet<Product> Products { get; set; }
         public DbSet<Type> Types { get; set; }
-       
+        
     }
 }
