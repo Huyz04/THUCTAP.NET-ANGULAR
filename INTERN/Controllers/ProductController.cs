@@ -24,32 +24,14 @@ namespace INTERN.Controllers
     {
         private readonly ProductContext _context;
         private readonly IMapper _mapper;
-        private PProduct _pProduct;
+        private readonly PProduct _pProduct;
         public ProductController(ProductContext context, PProduct pProduct,IMapper mapper)
         {
             _context = context;
             _pProduct = pProduct;
             _mapper = mapper;   
         }
-        /*
-        // GET: api/Product
-        [HttpGet]
-        public  Task<ActionResult<Response>> GetProducts()
-        {
-            return  _pProduct.PGetProducts();
-        }
 
-        [HttpGet("TEST")]
-        public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProductsTest()
-        {
-            var prd = _mapper.Map<IEnumerable<ProductDTO>>(await _context.Products.Include(p => p.Type).ToListAsync());
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            return Ok(prd);
-        }
-        */
         // GET: api/Product/5
         [HttpGet("{id}")]
         public Task<ActionResult<Response>> GetProduct(int id)
