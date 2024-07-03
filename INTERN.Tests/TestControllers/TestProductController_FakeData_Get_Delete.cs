@@ -4,25 +4,46 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using FakeItEasy;
 using INTERN.Providers;
+using INTERN.Controllers;
 using INTERN.DTO;
 using FluentAssertions;
+using INTERN.Helper;
 
-namespace INTERN.Tests.Controllers
+namespace INTERN.Tests.TestControllers
 {
     public class TestProductController_FakedData_Get_Delete
     {
-        private readonly ProductContext _productContext;
-        private readonly IMapper _mapper;
-        //private readonly PProduct _pProduct;
+        private readonly ProductContext _productContext1;
+        private readonly IMapper _mapper1;
+        private readonly PProduct _pProduct1;
         public TestProductController_FakedData_Get_Delete()
         {
             var options = new DbContextOptionsBuilder<ProductContext>()
                 .UseInMemoryDatabase(databaseName: "ProductDatabase")
                 .Options;
 
-            _productContext = new ProductContext(options);
-            _mapper = A.Fake<IMapper>();
-            
+            _productContext1 = new ProductContext(options);
+            _mapper1 = A.Fake<IMapper>();
+            _pProduct1 = new PProduct(_productContext1, _mapper1);
+        }
+
+        [Fact]
+        public async Task GetProduct_ReturnsProducts_WhenNoFilterApplied()
+        {
+            //Arrange
+            var product = A.Fake<ICollection<ProductDTO>>();
+            var productList = A.Fake<IEnumerable<ProductDTO>>();
+            A.CallTo(() => _mapper1.Map<IEnumerable<ProductDTO>>(product)).Returns(productList);
+            var controller = new ProductController(_productContext1, _pProduct1, _mapper1);
+
+            //Act
+            var result = await controller.GetProducts(null, null, 1, 10);
+
+            //Assert
+            //result.Should().BeNull();                                       // To debug when test failed.
+            Assert.IsType<ActionResult<Response>>(result);
+            Assert.True(result.Value.Success);
+
         }
 
         [Fact]
@@ -31,11 +52,11 @@ namespace INTERN.Tests.Controllers
             //Arrange
             var product = A.Fake<ICollection<ProductDTO>>();
             var productList = A.Fake<IEnumerable<ProductDTO>>();
-            A.CallTo(() => _mapper.Map<IEnumerable<ProductDTO>>(product)).Returns(productList);
-            var controller = new PProduct(_productContext, _mapper);
+            A.CallTo(() => _mapper1.Map<IEnumerable<ProductDTO>>(product)).Returns(productList);
+            var controller = new ProductController(_productContext1, _pProduct1, _mapper1);
 
             //Act
-            var result = await controller.GetProductFindPage(null, null, 1, 10);
+            var result = await controller.GetProducts(null, null, 1, 10);
 
             //Assert
             //result.Should().BeNull();                                       // To debug when test failed.
@@ -49,11 +70,11 @@ namespace INTERN.Tests.Controllers
             //Arrange
             var product = A.Fake<ICollection<ProductDTO>>();
             var productList = A.Fake<IEnumerable<ProductDTO>>();
-            A.CallTo(() => _mapper.Map<IEnumerable<ProductDTO>>(product)).Returns(productList);
-            var controller = new PProduct(_productContext, _mapper);
+            A.CallTo(() => _mapper1.Map<IEnumerable<ProductDTO>>(product)).Returns(productList);
+            var controller = new ProductController(_productContext1, _pProduct1, _mapper1);
 
             //Act
-            var result = await controller.GetProductId(-1);
+            var result = await controller.GetProduct(-1);
 
             //Assert
             //result.Should().BeNull();                                       // To debug when test failed.
@@ -68,17 +89,17 @@ namespace INTERN.Tests.Controllers
             //Arrange
             var product = A.Fake<ICollection<ProductDTO>>();
             var productList = A.Fake<IEnumerable<ProductDTO>>();
-            A.CallTo(() => _mapper.Map<IEnumerable<ProductDTO>>(product)).Returns(productList);
-            var controller = new PProduct(_productContext, _mapper);
+            A.CallTo(() => _mapper1.Map<IEnumerable<ProductDTO>>(product)).Returns(productList);
+            var controller = new ProductController(_productContext1, _pProduct1, _mapper1);
 
             //Act
-            var result = await controller.GetProductId(1);
+            var result = await controller.GetProduct(1);
 
             //Assert
             //result.Should().BeNull();                                       // To debug when test failed.
             Assert.IsType<ActionResult<Response>>(result);
             Assert.True(result.Value.Success);
-            Assert.Equal(1,result.Value.data.Total);
+            Assert.Equal(1, result.Value.data.Total);
 
         }
 
@@ -88,11 +109,11 @@ namespace INTERN.Tests.Controllers
             //Arrange
             var product = A.Fake<ICollection<ProductDTO>>();
             var productList = A.Fake<IEnumerable<ProductDTO>>();
-            A.CallTo(() => _mapper.Map<IEnumerable<ProductDTO>>(product)).Returns(productList);
-            var controller = new PProduct(_productContext, _mapper);
+            A.CallTo(() => _mapper1.Map<IEnumerable<ProductDTO>>(product)).Returns(productList);
+            var controller = new ProductController(_productContext1, _pProduct1, _mapper1);
 
             //Act
-            var result = await controller.GetProductFindPage("Product", "Name", 1, 10);
+            var result = await controller.GetProducts("Product", "Name", 1, 10);
 
             //Assert
             //result.Should().BeNull();                                       // To debug when test failed.
@@ -104,29 +125,28 @@ namespace INTERN.Tests.Controllers
         public async Task DeleteProduct_Successfully()
         {
             //Arrange
-            var product = A.Fake<ICollection<ProductDTO>>();
-            var productList = A.Fake<IEnumerable<ProductDTO>>();
-            A.CallTo(() => _mapper.Map<IEnumerable<ProductDTO>>(product)).Returns(productList);
-            var controller = new PProduct(_productContext, _mapper);
+            var product = A.Fake<ICollection<Product>>();
+            var productList = A.Fake<IEnumerable<Product>>();
+            A.CallTo(() => _mapper1.Map<IEnumerable<Product>>(product)).Returns(productList);
+            var controller = new ProductController(_productContext1, _pProduct1, _mapper1);
 
             //Act
 
-            var result = await controller.GetProductId(2);
-            result = await controller.DeleteProduct(2);
+            var result = await controller.DeleteProduct(1);
 
             //Assert
-            result.Should().BeNull();                                       // To debug when test failed.
+            //result.Should().BeNull();                                       // To debug when test failed.
             Assert.IsType<ActionResult<Response>>(result);
             Assert.True(result.Value.Success);
         }
         [Fact]
-        public async Task DeleteProduct_Failed()
+        public async Task DeleteProduct_InvalidID_Failed()
         {
             //Arrange
             var product = A.Fake<ICollection<ProductDTO>>();
             var productList = A.Fake<IEnumerable<ProductDTO>>();
-            A.CallTo(() => _mapper.Map<IEnumerable<ProductDTO>>(product)).Returns(productList);
-            var controller = new PProduct(_productContext, _mapper);
+            A.CallTo(() => _mapper1.Map<IEnumerable<ProductDTO>>(product)).Returns(productList);
+            var controller = new ProductController(_productContext1, _pProduct1, _mapper1);
 
             //Act
             var result = await controller.DeleteProduct(-1);
@@ -134,9 +154,8 @@ namespace INTERN.Tests.Controllers
             //Assert
             //result.Should().BeNull();                                       // To debug when test failed.
             Assert.False(result.Value.Success);
-            Assert.Equal("Have No Product Match With This ProductID!", result.Value.Message);
+            Assert.Equal("Invalid ID!", result.Value.Message);
         }
 
     }
 }
-
