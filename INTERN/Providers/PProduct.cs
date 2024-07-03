@@ -23,29 +23,7 @@ namespace INTERN.Providers
             _context = context;
             _mapper = mapper;
         }
-        public async Task<ActionResult<Response>> PGetProducts()
-        {
-            Response response = new Response();
-            IEnumerable<ProductDTO> listProduct = _mapper.Map<IEnumerable<ProductDTO>>(await _context.Products.ToListAsync());
-            if(listProduct != null) response.data.Collection = listProduct;
-            else response.data.Collection = new List<ProductDTO>();
-            response.data.Total = await _context.Products.CountAsync();
-            response.data.PageSize = 0;
-            response.data.PageIndex = 0;
-            if (response.data.Collection != null) response.Success = true;
-            else response.Success = false;
-            return response;
-        }
-        public async Task<ActionResult<Product>> GetProduct(int id)
-        {
-            var product = await _context.Products.FindAsync(id);
-
-            if (product == null)
-            {
-                return null; 
-            }
-            return product;
-        }
+        
         public async Task<ActionResult<Response>> GetProductFindPage(string filter,string feature, int page, int pagesize)
         {
 
