@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace INTERN.Migrations
 {
     [DbContext(typeof(ProductContext))]
-    [Migration("20240701081729_Update_User")]
-    partial class Update_User
+    [Migration("20240703040612_one")]
+    partial class one
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

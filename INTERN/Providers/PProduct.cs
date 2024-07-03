@@ -11,6 +11,9 @@ using System.Security.Claims;
 using System.Data.SqlTypes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.CodeAnalysis;
+using Azure;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace INTERN.Providers
 {
@@ -18,13 +21,14 @@ namespace INTERN.Providers
     {
         private readonly ProductContext _context;
         private readonly IMapper _mapper;
+
         public PProduct(ProductContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
         }
-        
-        public async Task<ActionResult<Response>> GetProductFindPage(string filter,string feature, int page, int pagesize)
+
+        public async Task<ActionResult<Response>> GetProductFindPage(string filter, string feature, int page, int pagesize)
         {
 
             var query = _context.Products.AsQueryable();
@@ -69,8 +73,17 @@ namespace INTERN.Providers
         }
         public async Task<ActionResult<Response>> GetProductId(int id)
         {
-            var product = _mapper.Map<ProductDTO>(await _context.Products.Include(p => p.Type).FirstOrDefaultAsync(p => p.Id == id));
             Response R = new Response();
+            if (id <= 0)
+            {
+                R.Success = false;
+                R.data.Total = 0;
+                R.Message = "Invalid ID!";
+                return R;
+            }
+            var product = _mapper.Map<ProductDTO>(await _context.Products.Include(p => p.Type).FirstOrDefaultAsync(p => p.Id == id));
+
+            //var product = await _context.Products.FindAsync(id);
             if (product == null)
             {
                 R.Success = false;
@@ -125,10 +138,19 @@ namespace INTERN.Providers
         }
         public async Task<ActionResult<Response>> DeleteProduct(int id)
         {
-            Response r = new Response();
+            Response r = new Response(); 
+            if (id <= 0)
+            {
+                r.Success = false;
+                r.data.Total = 0;
+                r.Message = "Invalid ID!";
+                return r;
+            }
             try
             {
-                var product = await _context.Products.FindAsync(id);
+                //var product = _mapper.Map<ProductDTO>(await _context.Products.Include(p => p.Type).FirstOrDefaultAsync(p => p.Id == id));
+
+                var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
                 if (product == null)
                 {
                     r.Success = false;
@@ -137,8 +159,20 @@ namespace INTERN.Providers
                 }
                 _context.Products.Remove(product);
                 await _context.SaveChangesAsync();
-                var re = await GetProductFindPage(null, null, 1, 10);
-                return re;
+
+                var products = new List<Product>();
+                var fullResponse = new Response
+                {
+                    Success = true, // Assuming there are products returned
+                    data = new ResponseProduct
+                    {
+                        Collection = _mapper.Map<IEnumerable<ProductDTO>>(products),
+                        Total = await _context.Products.CountAsync(),
+                        PageSize = 1,
+                        PageIndex = 10
+                    }
+                };
+                return fullResponse;
             }
             catch (Exception ex)
             {
