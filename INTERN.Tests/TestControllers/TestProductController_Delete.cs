@@ -31,6 +31,7 @@ namespace INTERN.Tests.TestControllers
             _context = new ProductContext(options);
 
             // Seed data
+            
             var type1 = new Type
             {
                 NameType = "Type1",
@@ -61,6 +62,7 @@ namespace INTERN.Tests.TestControllers
             _pProduct = new PProduct(_context, _mapper);
             _productController = new ProductController(_context, _pProduct,_mapper);
         }
+
         [Fact]
         public async Task DeleteProduct_Successfully()
         {

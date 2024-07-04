@@ -109,6 +109,12 @@ namespace INTERN.Providers
                 r.Message = "Please do not fill in the ID field!";
                 return r;
             }
+            if(product.TypeName==null)
+            {
+                r.Success = false;
+                r.Message = "TypeName cannot null!";
+                return r;
+            }
             try
             {
                 
@@ -201,7 +207,12 @@ namespace INTERN.Providers
                 r.Message = "Have no Product with this Id!";
                 return r;
             }
-
+            if (productdto.TypeName == null)
+            {
+                r.Success = false;
+                r.Message = "TypeName cannot null!";
+                return r;
+            }
             try
             { 
                 Product prd = new Product()
