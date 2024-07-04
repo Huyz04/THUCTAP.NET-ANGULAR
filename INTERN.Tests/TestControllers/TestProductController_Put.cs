@@ -64,7 +64,7 @@ namespace INTERN.Tests.TestControllers
 
             // Initialize PProduct with the real context and mapper
             _pProduct = new PProduct(_context, _mapper);
-            _productController = new ProductController(_context, _pProduct, _mapper);
+            _productController = new ProductController(_pProduct);
 
             // Setup mock HttpContext
             _mockHttpContext = new Mock<HttpContext>();
@@ -150,10 +150,32 @@ namespace INTERN.Tests.TestControllers
         [Fact]
         public async Task PutProduct_ValidProduct_ReturnsSuccessResponse()
         {
+            var type2 = new Type
+            {
+                NameType = "Type2",
+                Created_at = DateTime.Now,
+                Created_by = "1",
+                Updated_at = DateTime.Now,
+                Updated_by = "1"
+            };
+            var product1 = new Product
+            {
+                Code = "P01",
+                Name = "Product2",
+                Type = type2,
+                Description = "string",
+                Price = 100,
+                Created_at = DateTime.Now,
+                Created_by = "1",
+                Updated_at = DateTime.Now,
+                Updated_by = "1"
+            };
+            _context.Products.Add(product1);
+            _context.SaveChanges();
             // Arrange
             var productDto = new ProductDTO
             {
-                Id = 1,
+                Id = 2,
                 Code = "P03",
                 Name = "Product3",
                 TypeName = "Type1",
@@ -162,7 +184,7 @@ namespace INTERN.Tests.TestControllers
             };
 
             // Act
-            var result = await _pProduct.PutProduct(1, productDto, _mockHttpContext.Object);
+            var result = await _pProduct.PutProduct(2, productDto, _mockHttpContext.Object);
 
             // Assert
             //result.Should().BeNull();
