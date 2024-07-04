@@ -66,6 +66,7 @@ namespace INTERN.Providers
             var fullResponse = new Response
             {
                 Success = true, // Assuming there are products returned
+                Message = "Success!",
                 data = response
             };
 
@@ -92,6 +93,7 @@ namespace INTERN.Providers
             }
             IEnumerable<ProductDTO> a = new List<ProductDTO>() { product };
             R.Success = true;
+            R.Message = "Success!";
             R.data.Collection = a;
             R.data.Total = 1;
             R.data.PageIndex = 1;
@@ -105,6 +107,12 @@ namespace INTERN.Providers
             {
                 r.Success = false;
                 r.Message = "Please do not fill in the ID field!";
+                return r;
+            }
+            if(product.TypeName==null)
+            {
+                r.Success = false;
+                r.Message = "TypeName cannot null!";
                 return r;
             }
             try
@@ -163,6 +171,7 @@ namespace INTERN.Providers
                 var fullResponse = new Response
                 {
                     Success = true, // Assuming there are products returned
+                    Message = "Success!",
                     data = new ResponseProduct
                     {
                         Collection = _mapper.Map<IEnumerable<ProductDTO>>(products),
@@ -198,7 +207,12 @@ namespace INTERN.Providers
                 r.Message = "Have no Product with this Id!";
                 return r;
             }
-
+            if (productdto.TypeName == null)
+            {
+                r.Success = false;
+                r.Message = "TypeName cannot null!";
+                return r;
+            }
             try
             { 
                 Product prd = new Product()

@@ -11,12 +11,12 @@ using INTERN.Helper;
 
 namespace INTERN.Tests.TestControllers
 {
-    public class TestProductController_FakedData_Get_Delete
+    public class TestProductController_Get
     {
         private readonly ProductContext _productContext1;
         private readonly IMapper _mapper1;
         private readonly PProduct _pProduct1;
-        public TestProductController_FakedData_Get_Delete()
+        public TestProductController_Get()
         {
             var options = new DbContextOptionsBuilder<ProductContext>()
                 .UseInMemoryDatabase(databaseName: "ProductDatabase")
@@ -43,27 +43,10 @@ namespace INTERN.Tests.TestControllers
             //result.Should().BeNull();                                       // To debug when test failed.
             Assert.IsType<ActionResult<Response>>(result);
             Assert.True(result.Value.Success);
+            Assert.Equal("Success!", result.Value.Message);
 
         }
 
-        [Fact]
-        public async Task GetProductFindPage_ReturnsProducts_WhenNoFilterApplied()
-        {
-            //Arrange
-            var product = A.Fake<ICollection<ProductDTO>>();
-            var productList = A.Fake<IEnumerable<ProductDTO>>();
-            A.CallTo(() => _mapper1.Map<IEnumerable<ProductDTO>>(product)).Returns(productList);
-            var controller = new ProductController(_productContext1, _pProduct1, _mapper1);
-
-            //Act
-            var result = await controller.GetProducts(null, null, 1, 10);
-
-            //Assert
-            //result.Should().BeNull();                                       // To debug when test failed.
-            Assert.IsType<ActionResult<Response>>(result);
-            Assert.True(result.Value.Success);
-
-        }
         [Fact]
         public async Task GetProductWithID_ReturnsProducts_WhenIdNotTrue()
         {
@@ -80,6 +63,7 @@ namespace INTERN.Tests.TestControllers
             //result.Should().BeNull();                                       // To debug when test failed.
             Assert.IsType<ActionResult<Response>>(result);
             Assert.False(result.Value.Success);
+            Assert.Equal("Invalid ID!", result.Value.Message);
 
         }
 
@@ -100,6 +84,7 @@ namespace INTERN.Tests.TestControllers
             Assert.IsType<ActionResult<Response>>(result);
             Assert.True(result.Value.Success);
             Assert.Equal(1, result.Value.data.Total);
+            Assert.Equal("Success!", result.Value.Message);
 
         }
 
@@ -119,43 +104,9 @@ namespace INTERN.Tests.TestControllers
             //result.Should().BeNull();                                       // To debug when test failed.
             Assert.IsType<ActionResult<Response>>(result);
             Assert.True(result.Value.Success);
+            Assert.Equal("Success!", result.Value.Message);
         }
 
-        [Fact]
-        public async Task DeleteProduct_Successfully()
-        {
-            //Arrange
-            var product = A.Fake<ICollection<Product>>();
-            var productList = A.Fake<IEnumerable<Product>>();
-            A.CallTo(() => _mapper1.Map<IEnumerable<Product>>(product)).Returns(productList);
-            var controller = new ProductController(_productContext1, _pProduct1, _mapper1);
-
-            //Act
-
-            var result = await controller.DeleteProduct(1);
-
-            //Assert
-            //result.Should().BeNull();                                       // To debug when test failed.
-            Assert.IsType<ActionResult<Response>>(result);
-            Assert.True(result.Value.Success);
-        }
-        [Fact]
-        public async Task DeleteProduct_InvalidID_Failed()
-        {
-            //Arrange
-            var product = A.Fake<ICollection<ProductDTO>>();
-            var productList = A.Fake<IEnumerable<ProductDTO>>();
-            A.CallTo(() => _mapper1.Map<IEnumerable<ProductDTO>>(product)).Returns(productList);
-            var controller = new ProductController(_productContext1, _pProduct1, _mapper1);
-
-            //Act
-            var result = await controller.DeleteProduct(-1);
-
-            //Assert
-            //result.Should().BeNull();                                       // To debug when test failed.
-            Assert.False(result.Value.Success);
-            Assert.Equal("Invalid ID!", result.Value.Message);
-        }
 
     }
 }
