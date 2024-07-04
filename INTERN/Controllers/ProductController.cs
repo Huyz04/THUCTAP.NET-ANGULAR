@@ -22,14 +22,10 @@ namespace INTERN.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly ProductContext _context;
-        private readonly IMapper _mapper;
         private readonly PProduct _pProduct;
-        public ProductController(ProductContext context, PProduct pProduct,IMapper mapper)
+        public ProductController(PProduct pProduct)
         {
-            _context = context;
             _pProduct = pProduct;
-            _mapper = mapper;   
         }
 
         // GET: api/Product/5
@@ -71,11 +67,6 @@ namespace INTERN.Controllers
         public Task<ActionResult<Response>> DeleteProduct(int id)
         {
             return _pProduct.DeleteProduct(id);
-        }
-
-        private bool ProductExists(int id)
-        {
-            return _context.Products.Any(e => e.Id == id);
         }
     }
 }

@@ -237,7 +237,6 @@ namespace INTERN.Providers
                 }
                 prd.Type = x;
                 _context.Entry(prd).State = EntityState.Modified;
-
                 await _context.SaveChangesAsync();
                 var result = await GetProductId(IdProduct);
                 return result;
