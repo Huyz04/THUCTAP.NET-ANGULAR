@@ -34,7 +34,7 @@ namespace INTERN.Tests.TestControllers
             var product = A.Fake<ICollection<ProductDTO>>();
             var productList = A.Fake<IEnumerable<ProductDTO>>();
             A.CallTo(() => _mapper1.Map<IEnumerable<ProductDTO>>(product)).Returns(productList);
-            var controller = new ProductController(_productContext1, _pProduct1, _mapper1);
+            var controller = new ProductController(_pProduct1);
 
             //Act
             var result = await controller.GetProducts(null, null, 1, 10);
@@ -54,7 +54,7 @@ namespace INTERN.Tests.TestControllers
             var product = A.Fake<ICollection<ProductDTO>>();
             var productList = A.Fake<IEnumerable<ProductDTO>>();
             A.CallTo(() => _mapper1.Map<IEnumerable<ProductDTO>>(product)).Returns(productList);
-            var controller = new ProductController(_productContext1, _pProduct1, _mapper1);
+            var controller = new ProductController(_pProduct1);
 
             //Act
             var result = await controller.GetProduct(-1);
@@ -74,7 +74,7 @@ namespace INTERN.Tests.TestControllers
             var product = A.Fake<ICollection<ProductDTO>>();
             var productList = A.Fake<IEnumerable<ProductDTO>>();
             A.CallTo(() => _mapper1.Map<IEnumerable<ProductDTO>>(product)).Returns(productList);
-            var controller = new ProductController(_productContext1, _pProduct1, _mapper1);
+            var controller = new ProductController(_pProduct1);
 
             //Act
             var result = await controller.GetProduct(1);
@@ -95,7 +95,7 @@ namespace INTERN.Tests.TestControllers
             var product = A.Fake<ICollection<ProductDTO>>();
             var productList = A.Fake<IEnumerable<ProductDTO>>();
             A.CallTo(() => _mapper1.Map<IEnumerable<ProductDTO>>(product)).Returns(productList);
-            var controller = new ProductController(_productContext1, _pProduct1, _mapper1);
+            var controller = new ProductController(_pProduct1);
 
             //Act
             var result = await controller.GetProducts("Product", "Name", 1, 10);

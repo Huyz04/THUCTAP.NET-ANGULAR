@@ -40,7 +40,7 @@ namespace INTERN.Tests.TestControllers
 
             // Initialize PProduct with the real context and mapper
             _pProduct = new PProduct(_context, _mapper);
-            _productController = new ProductController(_context, _pProduct, _mapper);
+            _productController = new ProductController(_pProduct);
 
             // Setup mock HttpContext
             _mockHttpContext = new Mock<HttpContext>();

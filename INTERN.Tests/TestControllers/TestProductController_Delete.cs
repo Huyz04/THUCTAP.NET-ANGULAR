@@ -26,7 +26,7 @@ namespace INTERN.Tests.TestControllers
         {
             // Setup InMemory database
             var options = new DbContextOptionsBuilder<ProductContext>()
-            .UseInMemoryDatabase(databaseName: "ProductDatabase")
+            .UseInMemoryDatabase(databaseName: "PrdDatabase")
             .Options;
             _context = new ProductContext(options);
 
@@ -60,9 +60,21 @@ namespace INTERN.Tests.TestControllers
 
             // Initialize PProduct with the real context and mapper
             _pProduct = new PProduct(_context, _mapper);
-            _productController = new ProductController(_context, _pProduct,_mapper);
+            _productController = new ProductController(_pProduct);
         }
+        [Fact]
+        public async Task DeleteProduct_NoFindPrd()
+        {
 
+            // Act
+            var result = await _productController.DeleteProduct(5);
+
+            // Assert
+            var actionResult = Assert.IsType<ActionResult<Response>>(result);
+            var response = Assert.IsType<Response>(actionResult.Value);
+            Assert.False(response.Success);
+            Assert.Equal("Have No Product Match With This ProductID!", response.Message);
+        }
         [Fact]
         public async Task DeleteProduct_Successfully()
         {
@@ -91,5 +103,7 @@ namespace INTERN.Tests.TestControllers
             Assert.False(response.Success);
             Assert.Equal("Invalid ID!", response.Message);
         }
+
+        
     }
 }
