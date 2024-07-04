@@ -83,7 +83,6 @@ namespace INTERN.Providers
             }
             var product = _mapper.Map<ProductDTO>(await _context.Products.Include(p => p.Type).FirstOrDefaultAsync(p => p.Id == id));
 
-            //var product = await _context.Products.FindAsync(id);
             if (product == null)
             {
                 R.Success = false;
@@ -148,7 +147,7 @@ namespace INTERN.Providers
             }
             try
             {
-                //var product = _mapper.Map<ProductDTO>(await _context.Products.Include(p => p.Type).FirstOrDefaultAsync(p => p.Id == id));
+                //var productM = _mapper.Map<ProductDTO>(await _context.Products.Include(p => p.Type).FirstOrDefaultAsync(p => p.Id == id));
 
                 var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
                 if (product == null)

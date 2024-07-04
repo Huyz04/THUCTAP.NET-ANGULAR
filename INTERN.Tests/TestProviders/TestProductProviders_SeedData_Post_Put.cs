@@ -6,9 +6,9 @@ using FakeItEasy;
 using INTERN.Providers;
 using INTERN.DTO;
 
-namespace INTERN.Tests.Controllers
+namespace INTERN.Tests.TestProviders
 {
-    internal class TestProductController_SeedData_Post_Put
+    public class TestProductProviders_SeedData_Post_Put
     {
     }
 }
