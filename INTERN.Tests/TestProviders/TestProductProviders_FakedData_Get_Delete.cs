@@ -20,7 +20,7 @@ namespace INTERN.Tests.TestProviders
                 .UseInMemoryDatabase(databaseName: "ProductDatabase")
                 .Options;
 
-            _productContext = A.Fake<ProductContext>();
+            _productContext = new ProductContext(options);
             _mapper = A.Fake<IMapper>();
             
         }

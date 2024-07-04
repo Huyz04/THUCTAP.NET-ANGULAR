@@ -66,6 +66,7 @@ namespace INTERN.Providers
             var fullResponse = new Response
             {
                 Success = true, // Assuming there are products returned
+                Message = "Success!",
                 data = response
             };
 
@@ -92,6 +93,7 @@ namespace INTERN.Providers
             }
             IEnumerable<ProductDTO> a = new List<ProductDTO>() { product };
             R.Success = true;
+            R.Message = "Success!";
             R.data.Collection = a;
             R.data.Total = 1;
             R.data.PageIndex = 1;
@@ -163,6 +165,7 @@ namespace INTERN.Providers
                 var fullResponse = new Response
                 {
                     Success = true, // Assuming there are products returned
+                    Message = "Success!",
                     data = new ResponseProduct
                     {
                         Collection = _mapper.Map<IEnumerable<ProductDTO>>(products),
